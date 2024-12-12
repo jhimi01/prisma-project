@@ -2,7 +2,7 @@ import prisma from "@/lib/db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-export async function POST(req:any) {
+export async function POST(req: any) {
   try {
     const { username, password } = await req.json();
 

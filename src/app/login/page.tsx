@@ -1,11 +1,13 @@
 "use client";
 
 import { useCookie } from "@/hooks/useCookie";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const { setCookie } = useCookie({
     key: "authToken",
@@ -29,14 +31,16 @@ export default function Login() {
 
       if (res.ok) {
         const data = await res.json();
-        console.log(data)
-
         // Set the token using the useCookie hook
         setCookie(data.token);
         alert("Login successful!");
       } else {
         const errorData = await res.json();
         alert(`Error: ${errorData.message}`);
+          // Redirect to the signup page if the user is not found
+      if (res.status === 404) {
+        window.location.href = "/signup";  // Redirect to signup page
+      }
       }
     } catch (error) {
       console.error("Error during login:", error);

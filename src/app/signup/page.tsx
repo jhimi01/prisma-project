@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 export default function Signup() {
@@ -10,6 +11,8 @@ export default function Signup() {
     password: "",
     confirmPassword: "",
   });
+
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,6 +39,7 @@ export default function Signup() {
 
       if (res.ok) {
         alert("Signup successful! You can now log in.");
+        router.push('/login')
       } else {
         const errorData = await res.json();
         alert(`Signup error: ${errorData.message}`);
@@ -48,7 +52,7 @@ export default function Signup() {
 
   return (
     <div className="max-w-md mx-auto mt-8 p-6 border rounded-lg shadow-md">
-      <h2 className="text-center text-2xl font-semibold mb-6">Login</h2>
+      <h2 className="text-center text-2xl font-semibold mb-6">Sign up</h2>
       <form onSubmit={handleSignup} className="space-y-4">
         <input
           type="email"
