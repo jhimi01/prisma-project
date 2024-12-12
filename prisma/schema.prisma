@@ -22,11 +22,11 @@ model User {
 }
 
 model Signupuser {
-  id              String   @id @default(uuid())
-  email           String   @unique
-  name            String
-  password        String
-  confirmPassword String
-  created_at      DateTime @default(now())
-  updated_at      DateTime @default(now())
+  id         String   @id @default(uuid())
+  email      String   @unique
+  name       String
+  username   String   @unique
+  password   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

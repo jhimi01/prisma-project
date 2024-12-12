@@ -1,16 +1,44 @@
 import prisma from "@/lib/db";
+import bcrypt from "bcryptjs";
 
-export async function POST(req: any) {
-  const { name, username, email, password } = await req.json();
-
+export async function POST(req:any) {
   try {
-    const newUser = await prisma.signupuser.create({
-      data: {
-        name,
-        username,
-        email,
-        password,
+    const { email, name, username, password } = await req.json();
+
+    // Check if email or username already exists
+    const existingUser = await prisma.signupuser.findFirst({
+      where: {
+        OR: [{ email }, { username }],
       },
     });
-  } catch (err) {}
+
+    if (existingUser) {
+      return new Response(JSON.stringify({ message: "User already exists" }), {
+        status: 409,
+      });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the user
+    const newUser = await prisma.signupuser.create({
+      data: {
+        email,
+        name,
+        username,
+        password: hashedPassword,
+      },
+    });
+
+    return new Response(
+      JSON.stringify({ message: "Signup successful!", user: newUser }),
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Signup error:", error);
+    return new Response(JSON.stringify({ message: "Internal server error" }), {
+      status: 500,
+    });
+  }
 }
