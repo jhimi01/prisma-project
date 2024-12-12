@@ -26,10 +26,16 @@ export async function POST(req: any) {
       );
     }
 
+    // Check for JWT_SECRET
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("JWT_SECRET is not defined in the environment variables");
+    }
+
     // Generate JWT token
     const token = jwt.sign(
       { id: user.id, username: user.username, email: user.email },
-      process.env.JWT_SECRET,
+      secret,
       { expiresIn: "1h" }
     );
 

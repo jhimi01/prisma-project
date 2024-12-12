@@ -1,4 +1,5 @@
 // 'use client'
+import { useAuth } from "@/hooks/useAuth";
 import prisma from "@/lib/db";
 import { Trash2 } from "lucide-react";
 
@@ -6,6 +7,7 @@ export default async function Home() {
   const users = await prisma.signupuser.findMany();
 
   console.log(users);
+  useAuth();
 
   // const handleDelete = (id: any) => {
   //   console.log(id);
@@ -16,11 +18,6 @@ export default async function Home() {
       Hello World
       <div>
         <h3> users {users.length}</h3>
-        {/* <ul>
-          {users.map((user) => (
-            <li key={user.id}>{user.name} - {user.email} / username-{user?.username}</li>
-          ))}
-        </ul> */}
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
@@ -42,10 +39,9 @@ export default async function Home() {
                   <td>{user?.username}</td>
                   <td>{user?.email}</td>
                   <td>{user?.created_at?.toLocaleString()}</td>
-                  <td 
+                  <td
                   // onClick={() => handleDelete(user?.id)}
                   >
-                   
                     <button>
                       <Trash2 />
                     </button>

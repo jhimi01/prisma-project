@@ -34,13 +34,14 @@ export default function Login() {
         // Set the token using the useCookie hook
         setCookie(data.token);
         alert("Login successful!");
+        router.push('/')
       } else {
         const errorData = await res.json();
         alert(`Error: ${errorData.message}`);
-          // Redirect to the signup page if the user is not found
-      if (res.status === 404) {
-        window.location.href = "/signup";  // Redirect to signup page
-      }
+        // Redirect to the signup page if the user is not found
+        if (res.status === 404) {
+          window.location.href = "/signup"; // Redirect to signup page
+        }
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -78,7 +79,10 @@ export default function Login() {
             className="border p-2 w-full"
           />
         </div>
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 rounded"
+        >
           Login
         </button>
       </form>
