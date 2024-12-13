@@ -1,33 +1,44 @@
-'use client'
+"use client";
+import useUsers from "@/hooks/getUsers";
 import { useCookie } from "@/hooks/useCookie";
 import { Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-interface User {
-  id: string; // or number
-  name: string;
-  username: string;
-  email: string;
-  created_at?: Date;
-}
+export default function Table() {
+  const { users } = useUsers();
+  const removeCookie = useCookie<string>({
+    key: "authToken",
+    defaultValue: "",
+  });
 
-interface TableProps {
-  users: User[];
-}
+  const handleDelete = async (id: any) => {
+    try {
+      const res = await fetch("api/deleteuser", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
 
-export default function Table({ users }: TableProps) {
-const getCookie = useCookie<string>({
-  key: "authToken",
-  defaultValue: "",
-});
+      if (res.ok) {
+        alert("User deleted successfully");
+        removeCookie.setCookie(""); // Clear cookie
+      } else {
+        const errorData = await res.json();
+        alert(`Delete error: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
 
-
-console.log(getCookie)
   return (
     <div>
       <div className="overflow-x-auto">
+        <h3 className="my-5"> users {users.length}</h3>
         <table className="table">
-          {/* head */}
           <thead>
             <tr>
               <th></th>
@@ -38,15 +49,16 @@ console.log(getCookie)
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
             {users.map((user, index) => (
               <tr key={user?.id}>
                 <th>{index + 1}</th>
                 <td>{user?.name}</td>
                 <td>{user?.username}</td>
                 <td>{user?.email}</td>
-                <td>{user?.created_at?.toLocaleString()}</td>
-                <td>
+                {/* <td>{user?.created_at?.toLocaleString()}</td> */}
+                <td>{user?.created_at ? new Date(user.created_at).toLocaleString() : "N/A"}</td>
+
+                <td onClick={() => handleDelete(user?.id)}>
                   <button>
                     <Trash2 />
                   </button>
