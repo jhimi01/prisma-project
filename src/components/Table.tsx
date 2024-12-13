@@ -1,5 +1,7 @@
+'use client'
+import { useCookie } from "@/hooks/useCookie";
 import { Trash2 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface User {
   id: string; // or number
@@ -14,6 +16,13 @@ interface TableProps {
 }
 
 export default function Table({ users }: TableProps) {
+const getCookie = useCookie<string>({
+  key: "authToken",
+  defaultValue: "",
+});
+
+
+console.log(getCookie)
   return (
     <div>
       <div className="overflow-x-auto">
