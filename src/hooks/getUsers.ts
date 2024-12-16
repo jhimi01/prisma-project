@@ -1,6 +1,14 @@
 
 import { useState, useEffect } from "react";
 
+type User = {
+  id: string | number;
+  name: string;
+  username: string;
+  email: string;
+  created_at?: string; // Optional if it might be undefined
+};
+
 export default function useUsers() {
   const [users, setUsers] = useState<User[]>([]);
   const [update, setUpdate] = useState(false);
