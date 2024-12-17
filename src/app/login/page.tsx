@@ -35,7 +35,7 @@ export default function Login() {
         // Set the token using the useCookie hook
         setCookie(data.token);
         alert("Login successful!");
-        router.push('/')
+        router.push("/");
       } else {
         const errorData = await res.json();
         alert(`Error: ${errorData.message}`);
@@ -86,9 +86,11 @@ export default function Login() {
         >
           Login
         </button>
-       <div>
-       <Link href='/signup' className="underline text-xs">are you new here? signup</Link>
-       </div>
+        <div>
+          <Link href="/signup" className="underline text-xs">
+            are you new here? signup
+          </Link>
+        </div>
       </form>
     </div>
   );

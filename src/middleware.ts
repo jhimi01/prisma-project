@@ -4,16 +4,19 @@ export function middleware(req: NextRequest) {
   // Retrieve the token from the cookies
   const token = req.cookies.get("authToken")?.value;
 
+  const url = req.nextUrl;
+
   // If no token is found, redirect to the login page
   if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
+  if ((token && url.pathname == "/login") || url.pathname == "/signup") {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
   // Perform token validation if necessary
   // Example: JWT verification (optional)
   try {
-    // Replace `verifyToken` with your token validation logic
-    // Example: jwt.verify(token, process.env.JWT_SECRET);
     console.log("Token is valid:", token);
   } catch (error) {
     console.error("Invalid token:", error);
@@ -26,5 +29,5 @@ export function middleware(req: NextRequest) {
 
 // Specify which paths should use this middleware
 export const config = {
-  matcher: ["/", "/addusers"],
+  matcher: ["/", "/addusers", "/login", "/signup"],
 };

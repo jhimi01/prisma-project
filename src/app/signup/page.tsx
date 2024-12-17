@@ -40,7 +40,7 @@ export default function Signup() {
 
       if (res.ok) {
         alert("Signup successful! You can now log in.");
-        router.push('/login')
+        router.push("/login");
       } else {
         const errorData = await res.json();
         alert(`Signup error: ${errorData.message}`);
@@ -106,8 +106,10 @@ export default function Signup() {
           Signup
         </button>
         <div>
-       <Link href='/login' className="underline text-xs">do you have an account? login</Link>
-       </div>
+          <Link href="/login" className="underline text-xs">
+            do you have an account? login
+          </Link>
+        </div>
       </form>
     </div>
   );
