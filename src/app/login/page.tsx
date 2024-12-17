@@ -1,6 +1,7 @@
 "use client";
 
 import { useCookie } from "@/hooks/useCookie";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -85,6 +86,9 @@ export default function Login() {
         >
           Login
         </button>
+       <div>
+       <Link href='/signup' className="underline text-xs">are you new here? signup</Link>
+       </div>
       </form>
     </div>
   );
