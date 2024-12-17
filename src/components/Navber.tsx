@@ -10,7 +10,7 @@ export default function Navber() {
   });
   const getToken = getCookie.cookieValue;
 
-  console.log("getCookiefgfd", getToken);
+  // console.log("getCookiefgfd", getToken);
   const removeCookie = useCookie<string>({
     key: "authToken",
     defaultValue: "",

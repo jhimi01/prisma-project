@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 type User = {
@@ -11,22 +10,34 @@ type User = {
 
 export default function useUsers() {
   const [users, setUsers] = useState<User[]>([]);
-  const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/users");
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+      const data = await response.json();
+      setUsers(data);
+    } catch (err: any) {
+      console.error("Error fetching users:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch("http://localhost:3000/api/users");
-        const data = await response.json();
-        setUsers(data);
-        setUpdate(true);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-        setUpdate(false);
-      }
-    };
     fetchUsers();
-  }, [update]); // Empty array to run only on component mount
+  }, []); // Empty dependency array to fetch data on mount
 
-  return { users, setUsers };
+  return { users, loading, error, refetch: fetchUsers };
 }
+
+
+// return { users, setUsers };
