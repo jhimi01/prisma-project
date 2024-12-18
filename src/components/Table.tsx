@@ -5,7 +5,11 @@ import { Trash2 } from "lucide-react";
 import React from "react";
 
 export default function Table() {
+
   const { users } = useUsers();
+
+  console.log(users)
+  
   const removeCookie = useCookie<string>({
     key: "authToken",
     defaultValue: "",
@@ -56,7 +60,11 @@ export default function Table() {
                 <td>{user?.username}</td>
                 <td>{user?.email}</td>
                 {/* <td>{user?.created_at?.toLocaleString()}</td> */}
-                <td>{user?.created_at ? new Date(user.created_at).toLocaleString() : "N/A"}</td>
+                <td>
+                  {user?.created_at
+                    ? new Date(user.created_at).toLocaleString()
+                    : "N/A"}
+                </td>
 
                 <td onClick={() => handleDelete(user?.id)}>
                   <button>

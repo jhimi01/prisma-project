@@ -1,5 +1,4 @@
 import prisma from "@/lib/db";
-import { ifError } from "node:assert";
 
 export async function DELETE(req: any) {
   try {

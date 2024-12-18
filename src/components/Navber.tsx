@@ -13,7 +13,7 @@ export default function Navber() {
     defaultValue: "",
   });
   const getToken = getCookie.cookieValue;
-  console.log(getToken === "");
+  // console.log(getToken === "");
 
   // console.log("getCookiefgfd", getToken);
   const removeCookie = useCookie<string>({
